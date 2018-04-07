@@ -88,7 +88,7 @@ bool cadenaValida(string operacion, vector<Simbolo*>& variables){
 			}
 		}else{
 			if (((int)caracter_anterior >= 48 && (int)caracter_anterior <= 57 && (int)operacion[i] >= 48 &&
-					(int)operacion[i] <= 57) && !esVariable(operacion[i], variables)){
+					(int)operacion[i] <= 57) && esVariable(operacion[i], variables) == false){
 				return false;
 			}else if(caracter_anterior == '+' || caracter_anterior == '-' || caracter_anterior == '*' || caracter_anterior == '/'
 					|| caracter_anterior == '='){
