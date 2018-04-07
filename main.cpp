@@ -83,7 +83,7 @@ bool cadenaValida(string operacion, vector<Simbolo*>& variables){
 				return false;
 			}		
 		}else if (i+1 == operacion.length()){
-			if((((int)operacion[i] < 48 || (int)operacion[i] > 57) && operacion[i] != ')') && !esVariable(operacion[i], variables)){
+			if((((int)operacion[i] < 48 || (int)operacion[i] > 57) && operacion[i] != ')') && esVariable(operacion[i], variables) == false){
 				return false;
 			}
 		}else{
@@ -127,7 +127,7 @@ double vaciarPila(PilaTDA* pila, int i, char operador, double valor, vector<Simb
 				}else{
 					char_int = caracter - '0';
 				}
-				cout<<char_int<<endl;
+				//cout<<char_int<<endl;
 				switch(operador){
 					case '+':
 						valor+=char_int;
@@ -154,7 +154,7 @@ double vaciarPila(PilaTDA* pila, int i, char operador, double valor, vector<Simb
 			operador = caracter;
 			//cout<<caracter<<endl;
 		}
-		cout<<valor<<endl;
+		//cout<<valor<<endl;
 		i++;
 		vaciarPila(pila, i, operador, valor, variables);
 	}else{
