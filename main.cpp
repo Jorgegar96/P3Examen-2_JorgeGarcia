@@ -4,6 +4,7 @@
 #include "Simbolo.h"
 #include <typeinfo>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -14,11 +15,15 @@ double vaciarPila(PilaTDA*, int, char, double, vector<Simbolo*>&);
 Simbolo* esVariable(char, vector<Simbolo*>&);
 bool cadenaValida(string, vector<Simbolo*>&);
 
+
 int main(){
 	vector<Simbolo*> variables;
+	vector<string> operaciones;
 	PilaTDA* pila = new PilaTDA();
 	string operacion;
+	ifstream file("operaciones.txt");
 	bool salir = false;
+	int op = -1;
 	while (!salir){
 		switch(menu()){
 			case 1:
@@ -26,13 +31,36 @@ int main(){
 				cin>>operacion;
 				if(cadenaValida(operacion, variables)){
 					insertarCadena(pila, 0, operacion);
-					cout<<vaciarPila(pila, 0, '?', 0, variables)<<endl;
+					cout<<"El resultado es: "<<vaciarPila(pila, 0, '?', 0, variables)<<endl;
 				}		
 				else{
 					cout<<"Operacion invalida"<<endl;
 				}
 				break;
 			case 2:
+				if(file.is_open()){
+					while(getline(file,operacion)){
+						if(operacion.length()>3){
+							operaciones.push_back(operacion);
+						}else{
+							file.close();
+						}
+					}
+				}
+				for (int i=0; i < operaciones.size(); i++){
+					cout<<i<<") "<<operaciones[i]<<endl;
+				}
+				while (op <0 || op>=operaciones.size()){
+					cin>>op;
+				}
+				if(cadenaValida(operaciones[op], variables)){
+					insertarCadena(pila, 0, operaciones[op]);
+					cout<<"El resultado es: "<<vaciarPila(pila, 0, '?',0, variables)<<endl;
+				}else{
+					cout<<"Operacion invalida"<<endl;
+				}
+				break;
+			case 3:
 				salir = true;
 				break;
 		}
@@ -167,7 +195,8 @@ void insertarCadena(PilaTDA* pila, int i, string operacion){
 int menu(){
 	cout<<"¿Qué desea hacer?"<<endl
 	    <<"1)Insertar Operación"<<endl
-	    <<"2)Salir"<<endl;
+	    <<"2)Cargar de Archivo"<<endl
+	    <<"3)Salir"<<endl;
 	int op;
 	cin>>op;
 	return op;
